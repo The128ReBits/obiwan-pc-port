@@ -7,8 +7,9 @@ own code is translated to C and compiled for x86-64. Graphics are low-level: the
 recompiled code and writes real NV2A pushbuffer commands, which a runtime thread executes on Direct3D 11. Audio runs
 through the emulated MCPX APU.
 
-**Status:** playable. Levels run at roughly 120–300+ fps on a modern PC (combat is CPU-bound in the game's own code),
-with fixes for shadows / F16 depth, GPU surface bounds and fence waits. Work in progress: see `docs/`.
+**Status:** playable. Measured on one PC: about 100–157 fps in a combat test run of the first level (combat is limited
+by the game's own CPU code) and about 320 fps in a quieter section of another level. Reducing GPU fence waits gave +9 %
+in combat. Work in progress: measurements and notes in `docs/` (Spanish).
 
 ## No game data here
 
@@ -55,7 +56,8 @@ Port a Windows de *Star Wars: Obi-Wan* (Xbox, 2001) por **recompilación estáti
 y se compila para PC. Los gráficos son de bajo nivel: la biblioteca Direct3D 8 del propio juego escribe órdenes reales
 de la GPU NV2A y un hilo del runtime las ejecuta sobre Direct3D 11. El sonido pasa por el APU emulado.
 
-**Estado:** jugable, de 120 a más de 300 fps según la escena. Sigue en desarrollo; las notas están en `docs/`.
+**Estado:** jugable. Medido en un PC: unos 100-157 fps en una prueba de combate del primer nivel y unos 320 fps en un
+tramo tranquilo de otro nivel. Sigue en desarrollo; las notas están en `docs/`.
 
 Aquí **solo** hay nuestro código y nuestras notas: ni el juego, ni el XBE, ni el código traducido del juego. Cada uno
 tiene que generarlo a partir de su propia copia legal (pasos de arriba).

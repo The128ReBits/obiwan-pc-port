@@ -1,0 +1,295 @@
+[
+ {
+  "start": "0x00076A70",
+  "note": "Method behind the this-adjusting thunk at 0x00077040; reached only through it."
+ },
+ {
+  "start": "0x00077040",
+  "note": "Slot of a data table (vtable) at 0x003BF8B0; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x000E5C40",
+  "note": "Slot of a data table (vtable) at 0x003C5770,0x003C5B60,0x003C5F70,0x003C60F0; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x000E5CB0",
+  "note": "Method behind the this-adjusting thunk at 0x000E8700; reached only through it."
+ },
+ {
+  "start": "0x000E8700",
+  "note": "Slot of a data table (vtable) at 0x003C5800,0x003C6000,0x003C6208; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00112940",
+  "note": "Method behind the this-adjusting thunk at 0x00245850; reached only through it."
+ },
+ {
+  "start": "0x0012D150",
+  "note": "Slot of a data table (vtable) at 0x003C6B70; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0012D180",
+  "note": "Slot of a data table (vtable) at 0x003C6B74; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0012D1B0",
+  "note": "Slot of a data table (vtable) at 0x003C6B98; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014DCF0",
+  "note": "Slot of a data table (vtable) at 0x003C7CD4,0x003C7E84; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014E6E0",
+  "note": "Slot of a data table (vtable) at 0x003C7D74; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014EC70",
+  "note": "Slot of a data table (vtable) at 0x003C7DA4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014ECA0",
+  "note": "Slot of a data table (vtable) at 0x003C7DA8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014ECD0",
+  "note": "Slot of a data table (vtable) at 0x003C7D9C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014EE80",
+  "note": "Slot of a data table (vtable) at 0x003C7DC4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014EEB0",
+  "note": "Slot of a data table (vtable) at 0x003C7DC8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014EEE0",
+  "note": "Slot of a data table (vtable) at 0x003C7DBC; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F090",
+  "note": "Slot of a data table (vtable) at 0x003C7DE4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F0C0",
+  "note": "Slot of a data table (vtable) at 0x003C7DE8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F0F0",
+  "note": "Slot of a data table (vtable) at 0x003C7DDC; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F2B0",
+  "note": "Slot of a data table (vtable) at 0x003C7E04; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F2E0",
+  "note": "Slot of a data table (vtable) at 0x003C7E08; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F310",
+  "note": "Slot of a data table (vtable) at 0x003C7DFC; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F870",
+  "note": "Slot of a data table (vtable) at 0x003C7E48; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F8A0",
+  "note": "Slot of a data table (vtable) at 0x003C7E4C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F8D0",
+  "note": "Slot of a data table (vtable) at 0x003C7E50; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F900",
+  "note": "Slot of a data table (vtable) at 0x003C7E3C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014F980",
+  "note": "Slot of a data table (vtable) at 0x003C7E44; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FA50",
+  "note": "Slot of a data table (vtable) at 0x003C7E68; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FA80",
+  "note": "Slot of a data table (vtable) at 0x003C7E6C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FAB0",
+  "note": "Slot of a data table (vtable) at 0x003C7E70; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FAE0",
+  "note": "Slot of a data table (vtable) at 0x003C7E5C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FB60",
+  "note": "Slot of a data table (vtable) at 0x003C7E64; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FCF0",
+  "note": "Slot of a data table (vtable) at 0x003C7E88; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FD20",
+  "note": "Slot of a data table (vtable) at 0x003C7E8C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FD50",
+  "note": "Slot of a data table (vtable) at 0x003C7E90; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0014FD80",
+  "note": "Slot of a data table (vtable) at 0x003C7E7C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00153090",
+  "note": "Slot of a data table (vtable) at 0x003C7F54; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x001530C0",
+  "note": "Slot of a data table (vtable) at 0x003C7F58; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x001530F0",
+  "note": "Slot of a data table (vtable) at 0x003C7F5C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00153120",
+  "note": "Slot of a data table (vtable) at 0x003C7F48; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x001531A0",
+  "note": "Slot of a data table (vtable) at 0x003C7F50; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00158C70",
+  "note": "Slot of a data table (vtable) at 0x003C84C4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00158CA0",
+  "note": "Slot of a data table (vtable) at 0x003C84C8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00158CD0",
+  "note": "Slot of a data table (vtable) at 0x003C84CC; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00158D00",
+  "note": "Slot of a data table (vtable) at 0x003C84E4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00158D30",
+  "note": "Slot of a data table (vtable) at 0x003C84E8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00158D60",
+  "note": "Slot of a data table (vtable) at 0x003C84EC; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0015AEF0",
+  "note": "Slot of a data table (vtable) at 0x003C84B8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0015AF70",
+  "note": "Slot of a data table (vtable) at 0x003C84C0; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0015AFF0",
+  "note": "Slot of a data table (vtable) at 0x003C84D8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0015B070",
+  "note": "Slot of a data table (vtable) at 0x003C84E0; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00184BE0",
+  "note": "Slot of a data table (vtable) at 0x003CD984; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0019A110",
+  "observed": true,
+  "note": "Observed at runtime: indirect call stopped at this entry during the DualSense Training test on 2026-11-03. Confirmed SEH function prologue in the hash-pinned XBE; regenerate, do not skip the call."
+ },
+ {
+  "start": "0x001A7B50",
+  "note": "Slot of a data table (vtable) at 0x003CFCE4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x001CADB0",
+  "note": "Method behind the this-adjusting thunk at 0x001CAF70; reached only through it."
+ },
+ {
+  "start": "0x001CAF70",
+  "note": "Slot of a data table (vtable) at 0x003D3260; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x001CC490",
+  "note": "Method behind the this-adjusting thunk at 0x001CCF70; reached only through it."
+ },
+ {
+  "start": "0x001CCF70",
+  "note": "Slot of a data table (vtable) at 0x003D30B8; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x001D6C90",
+  "note": "Slot of a data table (vtable) at 0x003D77F4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0022F080",
+  "note": "Slot of a data table (vtable) at 0x003DB95C,0x003E0F54; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0022FFF0",
+  "note": "Slot of a data table (vtable) at 0x003DB800; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00230000",
+  "note": "Method behind the this-adjusting thunk at 0x0022FFF0; reached only through it."
+ },
+ {
+  "start": "0x002400F0",
+  "note": "Method behind the this-adjusting thunk at 0x00240680; reached only through it."
+ },
+ {
+  "start": "0x00240680",
+  "note": "Slot of a data table (vtable) at 0x003DC620; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00245850",
+  "note": "Slot of a data table (vtable) at 0x003DC974; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x002612B0",
+  "note": "Slot of a data table (vtable) at 0x003DDA04; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x002805F0",
+  "note": "Slot of a data table (vtable) at 0x003DF70C; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x00285DF0",
+  "note": "Slot of a data table (vtable) at 0x003DF710; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0028BDA0",
+  "note": "Slot of a data table (vtable) at 0x003DD2BC; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0029D380",
+  "note": "Slot of a data table (vtable) at 0x003E03EC; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x002A9770",
+  "note": "Slot of a data table (vtable) at 0x003E1FF4; only reached through the table; decodes as a function body."
+ },
+ {
+  "start": "0x0031E3D0",
+  "note": "Slot of a data table (vtable) at 0x003DA098,0x003DA300,0x003DA348,0x003DA5A0; only reached through the table; decodes as a function body."
+ }
+]

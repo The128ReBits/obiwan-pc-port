@@ -1,0 +1,45 @@
+// configurador_obiwan.rc -- recursos de "Configurar Obi-Wan.exe" (Claude completo-4, 2026-11-06).
+// Se compila desde la raíz de Desarrollo-PC (tools\build_configurador_obiwan.cmd).
+#pragma code_page(65001)
+#include <winver.h>
+#include <winuser.h>
+
+1 ICON "tools/configurador_obiwan.ico"
+1 RT_MANIFEST "tools/configurador_obiwan.manifest"
+
+// Textos de licencia (RCDATA 201..208): el orden es el de k_lic_nombres en configurador_obiwan_paginas.inc.
+201 RCDATA "work/obiwan-claude-completo/LICENSE"
+202 RCDATA "work/xboxrecomp-claude-completo4/LICENSE"
+203 RCDATA "work/xboxrecomp-claude-completo4/src/kernel/gpu_tt/LICENSE-TwoTowersRecompiled.txt"
+204 RCDATA "work/xboxrecomp-claude-completo4/src/kernel/gpu_tt/LICENSE-xboxrecomp-0.12.0"
+205 RCDATA "work/xboxrecomp-claude-completo4/LICENSES/LGPL-2.1.txt"
+206 RCDATA "work/xboxrecomp-claude-completo4/LICENSES/README.md"
+207 RCDATA "work/xboxrecomp-claude-completo4/NOTICE"
+208 RCDATA "upstream/SDL2/LICENSE.txt"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "0c0a04b0"
+        BEGIN
+            VALUE "FileDescription", "Configurar Obi-Wan (port no oficial para PC)"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "InternalName", "configurador_obiwan"
+            VALUE "OriginalFilename", "Configurar Obi-Wan.exe"
+            VALUE "ProductName", "Port Obi-Wan para PC (proyecto de aficionados)"
+            VALUE "ProductVersion", "completo-4"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0c0a, 1200
+    END
+END

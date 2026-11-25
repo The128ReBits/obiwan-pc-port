@@ -1,0 +1,17 @@
+# Never publish game data or generated translation of the game
+*.xbe
+*.iso
+*.sav
+work/obiwan-claude-completo/src/recomp/gen/
+# Build output
+build/
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.obj
+*.lib
+__pycache__/
+*.py[cod]
+*.log
+*.bmp

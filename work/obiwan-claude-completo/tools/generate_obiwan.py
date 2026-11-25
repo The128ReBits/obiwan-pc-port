@@ -15,8 +15,12 @@ def main():
     import capstone
     target=json.loads((ROOT/'target.json').read_text())
     pin=json.loads((ROOT/'toolchain.json').read_text())['xboxrecomp']['revision']
-    head=subprocess.check_output(['git','-C',str(SDK),'rev-parse','HEAD'],text=True).strip()
-    if head!=pin:raise RuntimeError('framework revision does not match toolchain.json')
+    # A published copy of the SDK has no .git: the revision can't be checked, the
+    # bundled tools are used as they are.
+    if (SDK/'.git').exists():
+        head=subprocess.check_output(['git','-C',str(SDK),'rev-parse','HEAD'],text=True).strip()
+        if head!=pin:raise RuntimeError('framework revision does not match toolchain.json')
+    else:head=pin
     source=(options.game_dir if options.game_dir else ROOT.parent/target['directory'])/target['executable']
     if hashlib.sha256(source.read_bytes()).hexdigest()!=target['sha256']:raise RuntimeError('unexpected XBE hash')
     WORK.mkdir(parents=True,exist_ok=True);GEN.mkdir(parents=True,exist_ok=True)

@@ -9,13 +9,13 @@
 
 // Textos de licencia (RCDATA 201..208): el orden es el de k_lic_nombres en configurador_obiwan_paginas.inc.
 201 RCDATA "work/obiwan-claude-completo/LICENSE"
-202 RCDATA "work/xboxrecomp-claude-completo4/LICENSE"
-203 RCDATA "work/xboxrecomp-claude-completo4/src/kernel/gpu_tt/LICENSE-TwoTowersRecompiled.txt"
-204 RCDATA "work/xboxrecomp-claude-completo4/src/kernel/gpu_tt/LICENSE-xboxrecomp-0.12.0"
-205 RCDATA "work/xboxrecomp-claude-completo4/LICENSES/LGPL-2.1.txt"
-206 RCDATA "work/xboxrecomp-claude-completo4/LICENSES/README.md"
-207 RCDATA "work/xboxrecomp-claude-completo4/NOTICE"
-208 RCDATA "upstream/SDL2/LICENSE.txt"
+202 RCDATA "work/xboxrecomp-claude-completo9/LICENSE"
+203 RCDATA "work/xboxrecomp-claude-completo9/src/kernel/gpu_tt/LICENSE-TwoTowersRecompiled.txt"
+204 RCDATA "work/xboxrecomp-claude-completo9/src/kernel/gpu_tt/LICENSE-xboxrecomp-0.12.0"
+205 RCDATA "work/xboxrecomp-claude-completo9/LICENSES/LGPL-2.1.txt"
+206 RCDATA "work/xboxrecomp-claude-completo9/LICENSES/README.md"
+207 RCDATA "work/xboxrecomp-claude-completo9/NOTICE"
+208 RCDATA "tools/LICENSE-SDL2.txt"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 1,0,0,0

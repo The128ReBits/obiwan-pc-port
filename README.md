@@ -29,9 +29,24 @@ the game and generate that code locally from your own legally obtained copy.
 Runtime switches are environment variables `RECOMP_FIX_<NAME>` (on by default, `=0` turns a fix off) plus opt-in
 diagnostics (`RECOMP_PROF=1`, `RECOMP_EXC_DIAG=1`, ...). See `docs/CLAUDE_rendimiento_y_fallos_2026-11-25.md`.
 
-## Building (Windows, MSVC 2022 Build Tools)
+## Play with your own ISO (installer)
 
-1. `tools\build_sdl2.cmd <SDL2 source, tag release-2.32.10>` (static SDL2 for generic gamepads).
+You need your own *Star Wars: Obi-Wan* **(USA)** Xbox ISO. Other editions (Europe, Spain) are not supported yet.
+
+1. Install [Python](https://www.python.org/) 3.10+ and then `py -3 -m pip install capstone==5.0.7`.
+2. Install [Visual Studio 2022 Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) with
+   *Desktop development with C++*.
+3. Download this repository (Code → Download ZIP), unzip it and run **`Instalar Obi-Wan.cmd`**. Pick your ISO.
+   It extracts the game files to `private\game\usa`, translates the game code to C and compiles everything
+   (about 4 GB of free disk space). Nothing is written to your ISO.
+4. Play with **`Jugar Obi-Wan.exe`**; settings in **`Configurar Obi-Wan.exe`**.
+
+Optional: put SDL2 source (tag `release-2.32.10`) in `upstream\SDL2` before step 3 for non-Xbox gamepads; without
+it only XInput (Xbox-style) gamepads and the keyboard work.
+
+## Building by hand (Windows, MSVC 2022 Build Tools)
+
+1. `tools\build_sdl2.cmd <SDL2 source, tag release-2.32.10>` (static SDL2 for generic gamepads, optional).
 2. Generate the title C into `work/obiwan-claude-completo/src/recomp/gen/` from your own `default.xbe` with
    `work/obiwan-claude-completo/tools/generate_obiwan.py` (see that folder's README).
 3. `tools\build_claude_completo9.cmd` → `build\obiwan-claude-completo-9\obiwan_recomp.exe`.
@@ -60,4 +75,19 @@ de la GPU NV2A y un hilo del runtime las ejecuta sobre Direct3D 11. El sonido pa
 tramo tranquilo de otro nivel. Sigue en desarrollo; las notas están en `docs/`.
 
 Aquí **solo** hay nuestro código y nuestras notas: ni el juego, ni el XBE, ni el código traducido del juego. Cada uno
-tiene que generarlo a partir de su propia copia legal (pasos de arriba).
+tiene que generarlo a partir de su propia copia legal.
+
+### Jugar con tu ISO
+
+Necesitas tu propia ISO de *Star Wars: Obi-Wan* **(USA)**; las ediciones Europa y España todavía no funcionan.
+
+1. Instala [Python](https://www.python.org/) 3.10 o más nuevo y luego `py -3 -m pip install capstone==5.0.7`.
+2. Instala [Visual Studio 2022 Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) con
+   *Desarrollo para el escritorio con C++*.
+3. Descarga este repositorio (Code → Download ZIP), descomprímelo y abre **`Instalar Obi-Wan.cmd`**. Elige tu ISO.
+   Extrae el juego en `private\game\usa`, traduce el código del juego a C y lo compila todo (hacen falta unos 4 GB
+   libres). Tu ISO no se modifica.
+4. Juega con **`Jugar Obi-Wan.exe`**; los ajustes están en **`Configurar Obi-Wan.exe`**.
+
+Opcional: si pones el código de SDL2 (etiqueta `release-2.32.10`) en `upstream\SDL2` antes del paso 3, funcionan
+también mandos que no son de Xbox; sin él, solo mandos XInput (tipo Xbox) y teclado.

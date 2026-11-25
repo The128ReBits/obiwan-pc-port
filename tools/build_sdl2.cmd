@@ -13,7 +13,7 @@ set "SRC=%~f1"
 if "%~1"=="" set "SRC=%~dp0..\upstream\SDL2"
 set "DEST=%~f2"
 if "%~2"=="" set "DEST=%~dp0..\build\sdl2-win"
-set "VS=C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
+if not defined VS set "VS=C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
 call "%VS%\VC\Auxiliary\Build\vcvars64.bat" >nul || exit /b 3
 set "PATH=%VS%\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%VS%\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;%PATH%"
 cmake -S "%SRC%" -B "%DEST%-obj" -G Ninja -DCMAKE_BUILD_TYPE=Release ^

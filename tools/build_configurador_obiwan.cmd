@@ -2,7 +2,8 @@
 setlocal
 rem Claude completo-4 2026-11-06: "Configurar Obi-Wan.exe" (Win32 + comctl6, lee y escribe obiwan.ini).
 rem Archivo nuevo: no toca ningun Jugar Obi-Wan*.exe.
-call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul || exit /b 3
+if not defined VS set "VS=C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
+call "%VS%\VC\Auxiliary\Build\vcvars64.bat" >nul || exit /b 3
 cd /d "%~dp0.."
 if not exist build\configurador mkdir build\configurador
 if not exist tools\configurador_obiwan.ico py -3 -I -B tools\claude4\hacer_icono_configurador.py || exit /b 4

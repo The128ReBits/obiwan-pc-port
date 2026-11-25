@@ -27,9 +27,10 @@ def main():
     target = json.loads((ROOT / 'target.json').read_text())
     pin = json.loads((ROOT / 'toolchain.json').read_text())['xboxrecomp']['revision']
     sdk = Path(os.environ['XBOXRECOMP_DIR']).resolve()
-    head = subprocess.check_output(['git', '-C', str(sdk), 'rev-parse', 'HEAD'], text=True).strip()
-    if head != pin:
-        raise RuntimeError('framework revision does not match toolchain.json')
+    if (sdk / '.git').exists():
+        head = subprocess.check_output(['git', '-C', str(sdk), 'rev-parse', 'HEAD'], text=True).strip()
+        if head != pin:
+            raise RuntimeError('framework revision does not match toolchain.json')
     xbe = (args.game_dir / target['executable']).read_bytes()
     if hashlib.sha256(xbe).hexdigest() != target['sha256']:
         raise RuntimeError('unexpected XBE hash')

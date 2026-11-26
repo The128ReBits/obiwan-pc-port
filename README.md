@@ -9,7 +9,10 @@ through the emulated MCPX APU.
 
 **Status:** playable. Measured on one PC: about 100–157 fps in a combat test run of the first level (combat is limited
 by the game's own CPU code) and about 320 fps in a quieter section of another level. Reducing GPU fence waits gave +9 %
-in combat. Work in progress: measurements and notes in `docs/` (Spanish).
+in combat. Measurements and notes are in `docs/` (Spanish).
+
+**Development is paused.** Anyone may use this code to improve their own Obi-Wan port (keep the licenses and credit);
+issues and pull requests are welcome.
 
 ## No game data here
 
@@ -89,7 +92,10 @@ y se compila para PC. Los gráficos son de bajo nivel: la biblioteca Direct3D 8 
 de la GPU NV2A y un hilo del runtime las ejecuta sobre Direct3D 11. El sonido pasa por el APU emulado.
 
 **Estado:** jugable. Medido en un PC: unos 100-157 fps en una prueba de combate del primer nivel y unos 320 fps en un
-tramo tranquilo de otro nivel. Sigue en desarrollo; las notas están en `docs/`.
+tramo tranquilo de otro nivel. Las notas están en `docs/`.
+
+**El desarrollo está en pausa.** Cualquiera puede usar este código para mejorar su propio port de Obi-Wan (respetando
+las licencias y citando el origen); los issues y pull requests son bienvenidos.
 
 Aquí **solo** hay nuestro código y nuestras notas: ni el juego, ni el XBE, ni el código traducido del juego. Cada uno
 tiene que generarlo a partir de su propia copia legal.

@@ -115,6 +115,21 @@ static BOOL dir_exists(const wchar_t *p)
     return a != INVALID_FILE_ATTRIBUTES && (a & FILE_ATTRIBUTE_DIRECTORY);
 }
 
+static BOOL dir_empty(const wchar_t *dir)
+{
+    wchar_t pat[1100];
+    _snwprintf_s(pat, 1100, _TRUNCATE, L"%s\\*", dir);
+    WIN32_FIND_DATAW fd;
+    HANDLE h = FindFirstFileW(pat, &fd);
+    if (h == INVALID_HANDLE_VALUE) return TRUE;
+    BOOL empty = TRUE;
+    do {
+        if (wcscmp(fd.cFileName, L".") && wcscmp(fd.cFileName, L"..")) { empty = FALSE; break; }
+    } while (FindNextFileW(h, &fd));
+    FindClose(h);
+    return empty;
+}
+
 /* Create dir and its parents. Returns 0 or the Windows error. */
 static DWORD make_dirs(const wchar_t *dir)
 {
@@ -285,6 +300,16 @@ static BOOL signed_by_microsoft(const wchar_t *path)
     return ok;
 }
 
+/* Opens the file so that nobody can change, rename or delete it while the handle is held, then checks the
+   signature: what was checked is what gets run. INVALID_HANDLE_VALUE if it can't be locked or isn't Microsoft's. */
+static HANDLE hold_if_microsoft(const wchar_t *path)
+{
+    HANDLE f = CreateFileW(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+    if (f == INVALID_HANDLE_VALUE) return f;
+    if (!signed_by_microsoft(path)) { CloseHandle(f); return INVALID_HANDLE_VALUE; }
+    return f;
+}
+
 static BOOL install_vs(wchar_t *vs, int cap)
 {
     if (ask(T("Falta el compilador de Microsoft (Visual Studio 2022 Build Tools, la parte de C++).\n\n"
@@ -301,7 +326,7 @@ static BOOL install_vs(wchar_t *vs, int cap)
     status(T("Descargando el instalador de Microsoft…", "Downloading Microsoft's installer…"));
     wchar_t tmp[MAX_PATH], boot[MAX_PATH];
     GetTempPathW(MAX_PATH, tmp);
-    _snwprintf_s(boot, MAX_PATH, _TRUNCATE, L"%svs_BuildTools_obiwan.exe", tmp);
+    _snwprintf_s(boot, MAX_PATH, _TRUNCATE, L"%svs_BuildTools_obiwan_%lu_%lu.exe", tmp, GetCurrentProcessId(), GetTickCount());
     DeleteFileW(boot);
     HRESULT hr = URLDownloadToFileW(NULL, VS_URL, boot, 0, NULL);
     if (FAILED(hr) || !file_exists(boot)) {
@@ -309,7 +334,8 @@ static BOOL install_vs(wchar_t *vs, int cap)
             VS_URL, (unsigned)hr);
         return FALSE;
     }
-    if (!signed_by_microsoft(boot)) {
+    HANDLE held = hold_if_microsoft(boot);   /* kept open until Microsoft's installer has finished */
+    if (held == INVALID_HANDLE_VALUE) {
         say(T("El archivo descargado no tiene la firma de Microsoft; no lo ejecuto.",
               "The downloaded file is not signed by Microsoft; not running it."));
         DeleteFileW(boot);
@@ -338,6 +364,8 @@ static BOOL install_vs(wchar_t *vs, int cap)
     if (!ShellExecuteExW(&se) || !se.hProcess) {
         say(T("No se ha podido iniciar el instalador de Microsoft (¿has dicho que no al permiso de administrador?).",
               "Could not start Microsoft's installer (did you decline the administrator prompt?)."));
+        CloseHandle(held);
+        DeleteFileW(boot);
         return FALSE;
     }
     if (g_job) AssignProcessToJobObject(g_job, se.hProcess);
@@ -345,6 +373,7 @@ static BOOL install_vs(wchar_t *vs, int cap)
     DWORD code = 1;
     GetExitCodeProcess(se.hProcess, &code);
     CloseHandle(se.hProcess);
+    CloseHandle(held);
     DeleteFileW(boot);
     say(T("El instalador de Microsoft ha terminado (código %lu).", "Microsoft's installer finished (code %lu)."), code);
     if (code == 3010)
@@ -481,7 +510,9 @@ static void read_marker(const wchar_t *dir, wchar_t *ver, int cap)
     MultiByteToWideChar(CP_UTF8, 0, v, -1, ver, cap);
 }
 
-static void write_marker(const wchar_t *dir)
+/* Written as soon as the folder is created (empty version: install not finished, so a retry or the
+   uninstaller still recognise the folder) and again with APP_VERSION when the install has finished. */
+static void write_marker(const wchar_t *dir, const wchar_t *version)
 {
     wchar_t p[1024];
     _snwprintf_s(p, 1024, _TRUNCATE, L"%s\\" MARKER, dir);
@@ -490,7 +521,7 @@ static void write_marker(const wchar_t *dir)
     char buf[512];
     int n = _snprintf_s(buf, sizeof buf, _TRUNCATE,
                         "Star Wars Obi-Wan PC port, installed by Instalar-Obi-Wan.exe\r\nversion=%ls\r\n"
-                        "The uninstaller deletes this whole folder.\r\n", APP_VERSION);
+                        "The uninstaller deletes this whole folder.\r\n", version);
     DWORD w; WriteFile(f, buf, (DWORD)n, &w, NULL);
     CloseHandle(f);
 }
@@ -511,6 +542,10 @@ static BOOL do_install(void)
               "Documents, Desktop, Pictures… are protected: pick another folder (the default one works)."), dir, r);
         return FALSE;
     }
+    read_marker(dir, prev, 64);
+    wchar_t mk[1024];
+    _snwprintf_s(mk, 1024, _TRUNCATE, L"%s\\" MARKER, dir);
+    if (!file_exists(mk)) write_marker(dir, L"");
     wchar_t logp[1024];
     _snwprintf_s(logp, 1024, _TRUNCATE, L"%s\\instalacion.log", dir);
     g_logfile = CreateFileW(logp, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -523,7 +558,6 @@ static BOOL do_install(void)
             freeb.QuadPart / 1073741824.0);
         return FALSE;
     }
-    read_marker(dir, prev, 64);
 
     status(T("Copiando los archivos del instalador…", "Copying the installer files…"));
     if (!unpack_payload(dir)) return FALSE;
@@ -564,7 +598,7 @@ static BOOL do_install(void)
     GetModuleFileNameW(NULL, self, 1024);
     _snwprintf_s(un, 1024, _TRUNCATE, L"%s\\" UNINST_EXE, dir);
     if (_wcsicmp(self, un) != 0) CopyFileW(self, un, FALSE);
-    write_marker(dir);
+    write_marker(dir, APP_VERSION);
     make_shortcuts(dir, g_want_desktop);
     register_uninstall(dir);
     return TRUE;
@@ -620,6 +654,12 @@ static int uninstall(void)
     CoUninitialize();
     RegDeleteKeyW(HKEY_CURRENT_USER, UNINST_KEY);
 
+    if (wcschr(dir, L'%')) {   /* cmd.exe would expand %...% in the path: don't let it delete anything */
+        _snwprintf_s(q, 2048, _TRUNCATE, T("Obi-Wan se ha desinstalado. Borra tú la carpeta\n%s",
+                                           "Obi-Wan has been uninstalled. Please delete the folder\n%s"), dir);
+        MessageBoxW(NULL, q, APP_NAME, MB_ICONINFORMATION);
+        return 0;
+    }
     MessageBoxW(NULL, T("Obi-Wan se ha desinstalado.", "Obi-Wan has been uninstalled."), APP_NAME, MB_ICONINFORMATION);
 
     /* This exe lives in the folder: a hidden cmd deletes it once we have exited (it retries for ~40 s,
@@ -716,6 +756,25 @@ static void start_install(HWND h)
     if (n < 4 || g_dir_path[1] != L':') {
         MessageBoxW(h, T("Elige una carpeta de instalación completa (por ejemplo C:\\Juegos\\" FOLDER_NAME L").",
                          "Pick a full install folder (for example C:\\Games\\" FOLDER_NAME L")."), APP_NAME, MB_ICONWARNING);
+        return;
+    }
+    if (wcschr(g_dir_path, L'%')) {
+        MessageBoxW(h, T("La carpeta de instalación no puede llevar el signo %.", "The install folder can't contain the % sign."),
+                    APP_NAME, MB_ICONWARNING);
+        return;
+    }
+    /* The uninstaller deletes the whole install folder, so it must be new, empty, or a previous install. */
+    wchar_t mk[1100];
+    _snwprintf_s(mk, 1100, _TRUNCATE, L"%s\\" MARKER, g_dir_path);
+    if (dir_exists(g_dir_path) && !dir_empty(g_dir_path) && !file_exists(mk)) {
+        wchar_t m[2400];
+        _snwprintf_s(m, 2400, _TRUNCATE,
+                     T("La carpeta\n%s\nya tiene otras cosas dentro. Al desinstalar se borra la carpeta de instalación entera, "
+                       "así que hace falta una carpeta nueva o vacía, por ejemplo\n%s\\" FOLDER_NAME,
+                       "The folder\n%s\nalready has other things in it. Uninstalling deletes the whole install folder, "
+                       "so a new or empty folder is needed, for example\n%s\\" FOLDER_NAME),
+                     g_dir_path, g_dir_path);
+        MessageBoxW(h, m, APP_NAME, MB_ICONWARNING);
         return;
     }
     if (!is_ascii(g_dir_path) &&
@@ -862,14 +921,35 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE prev, PWSTR cmdline, int show)
     (void)prev;
     g_es = PRIMARYLANGID(GetUserDefaultUILanguage()) == LANG_SPANISH;
     if (wcsstr(cmdline, L"/desinstalar")) return uninstall();
-    if (wcsstr(cmdline, L"/comprobar-firma ")) { /* test hook: exit 0 if the file is signed by Microsoft */
+    /* Test hooks. /comprobar-firma <file>: exit 0 if signed by Microsoft (checked with the file locked, as
+       install_vs does). /comprobar-firma-y-abrir <file>: the same, then runs it (no admin) while still locked
+       and exits with its exit code (2 if it could not be started). */
+    BOOL open_too = wcsstr(cmdline, L"/comprobar-firma-y-abrir ") != NULL;
+    const wchar_t *tag = open_too ? L"/comprobar-firma-y-abrir " : L"/comprobar-firma ";
+    if (wcsstr(cmdline, tag)) {
         wchar_t f[1024];
-        wcsncpy_s(f, 1024, wcsstr(cmdline, L"/comprobar-firma ") + 17, _TRUNCATE);
+        wcsncpy_s(f, 1024, wcsstr(cmdline, tag) + wcslen(tag), _TRUNCATE);
         wchar_t *p = f;
         if (*p == L'"') p++;
         size_t n = wcslen(p);
         if (n && p[n - 1] == L'"') p[n - 1] = 0;
-        return signed_by_microsoft(p) ? 0 : 1;
+        HANDLE held = hold_if_microsoft(p);
+        if (held == INVALID_HANDLE_VALUE) return 1;
+        DWORD code = 0;
+        if (open_too) {
+            SHELLEXECUTEINFOW se = { sizeof se };
+            se.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_NOASYNC;
+            se.lpFile = p;
+            se.nShow = SW_HIDE;
+            code = 2;
+            if (ShellExecuteExW(&se) && se.hProcess) {
+                WaitForSingleObject(se.hProcess, INFINITE);
+                GetExitCodeProcess(se.hProcess, &code);
+                CloseHandle(se.hProcess);
+            }
+        }
+        CloseHandle(held);
+        return (int)code;
     }
 
     SetEnvironmentVariableW(L"PYTHONHOME", NULL);

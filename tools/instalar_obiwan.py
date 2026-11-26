@@ -89,8 +89,13 @@ class Xdvdfs:
 
     def walk(self):
         stack = [(PurePosixPath(), *self.root)]
+        tables = set()  # a real disc never reuses a directory table; a broken one could loop forever
         while stack:
             prefix, sector, size = stack.pop()
+            if size:  # empty directories have no table (and may all point at the same sector)
+                if sector in tables:
+                    raise ValueError('directory loop')
+                tables.add(sector)
             for name, first, length, is_dir in self.directory(sector, size):
                 rel = prefix / name
                 if is_dir:
@@ -174,7 +179,8 @@ def open_iso(iso, target):
 
 def run_cmd(script, env, what):
     say(f'{what}: running tools\\{script} ...')
-    r = subprocess.run(['cmd', '/c', str(ROOT / 'tools' / script)], cwd=ROOT, env=env)
+    # Relative path + cwd: cmd.exe would expand a literal %...% in an absolute path.
+    r = subprocess.run(['cmd', '/d', '/c', f'tools\\{script}'], cwd=ROOT, env=env)
     if r.returncode:
         fail(f'{what} failed (tools\\{script}, code {r.returncode}).',
              f'Ha fallado: {what} (tools\\{script}, código {r.returncode}).')

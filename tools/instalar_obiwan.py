@@ -6,7 +6,7 @@ Builds the Obi-Wan PC port from your own copy of the game:
   3. translates the game's code to C (tools/generate_obiwan.py);
   4. compiles obiwan_recomp.exe, the launcher and the settings tool with MSVC 2022.
 
-Usage: py -3 tools\\instalar_obiwan.py [--iso PATH] [--regenerar]
+Usage: py -3 tools\\instalar_obiwan.py [--iso PATH] [--regenerar] [--comprobar-iso]
 
 Nothing here downloads the game or ships any part of it: everything is made on your PC
 from the ISO you give it.
@@ -139,11 +139,37 @@ def find_vs():
     if vswhere.exists():
         r = subprocess.run([str(vswhere), '-version', '[17.0,18.0)', '-products', '*', '-requires',
                             'Microsoft.VisualStudio.Component.VC.Tools.x86.x64',
+                            'Microsoft.VisualStudio.Component.VC.CMake.Project',
                             '-property', 'installationPath'], capture_output=True, text=True)
         for line in r.stdout.splitlines():
             if line.strip() and (Path(line.strip()) / 'VC/Auxiliary/Build/vcvars64.bat').exists():
                 return line.strip()
     return None
+
+
+def open_iso(iso, target):
+    """Open the ISO and check its default.xbe is the supported edition. Returns (disc, files)."""
+    if not iso or not iso.is_file():
+        fail('No ISO given.', 'No has elegido ninguna ISO.')
+    try:
+        disc = Xdvdfs(iso)
+        files = list(disc.walk())
+    except (ValueError, OSError) as e:
+        fail(f'{iso.name} is not an Xbox game image ({e}).', f'{iso.name} no es una imagen de Xbox ({e}).')
+    entry = [f for f in files if f[0].casefold() == target['executable']]
+    if not entry:
+        fail('default.xbe is not in that ISO.', 'Esa ISO no tiene default.xbe.')
+    h = hashlib.sha256()
+
+    class Sink:
+        def write(self, d):
+            pass
+    disc.copy(entry[0][1], entry[0][2], Sink(), h)
+    if h.hexdigest() != target['sha256']:
+        fail('This ISO is not the supported edition. For now only Star Wars: Obi-Wan (USA) works '
+             f'(default.xbe SHA-256 {target["sha256"]}).',
+             'Esta ISO no es la edición compatible. De momento solo funciona Star Wars: Obi-Wan (USA).')
+    return disc, files
 
 
 def run_cmd(script, env, what):
@@ -159,8 +185,14 @@ def main():
     ap.add_argument('--iso', type=Path, help='your Star Wars: Obi-Wan (USA) ISO')
     ap.add_argument('--regenerar', action='store_true', help='translate the game code again even if it exists')
     ap.add_argument('--sin-compilar', action='store_true', help='only extract and translate, do not compile')
+    ap.add_argument('--comprobar-iso', action='store_true', help='only check that --iso is the supported edition')
     args = ap.parse_args()
     target = json.loads((TITLE / 'target.json').read_text())
+    if args.comprobar_iso:
+        disc, _ = open_iso(args.iso, target)
+        disc.f.close()
+        say('ISO OK: Star Wars: Obi-Wan (USA).', 'ISO correcta: Star Wars: Obi-Wan (USA).')
+        return
 
     # 1. tools
     if os.name != 'nt':
@@ -172,7 +204,7 @@ def main():
     except ImportError:
         say('The Python package "capstone" is missing. Install it with:',
             'Falta el paquete de Python "capstone". Instálalo con:')
-        say(f'    "{sys.executable}" -m pip install capstone==5.0.7')
+        say(f'    "{sys.executable}" -m pip install capstone==5.0.9')
         sys.exit(1)
     vs = find_vs()
     if not vs:
@@ -186,26 +218,7 @@ def main():
         say(f'Game files already extracted in {GAME}', f'Los archivos del juego ya están en {GAME}')
     else:
         iso = args.iso or pick_iso()
-        if not iso or not iso.is_file():
-            fail('No ISO given.', 'No has elegido ninguna ISO.')
-        try:
-            disc = Xdvdfs(iso)
-        except ValueError as e:
-            fail(f'{iso.name} is not an Xbox game image ({e}).', f'{iso.name} no es una imagen de Xbox ({e}).')
-        files = list(disc.walk())
-        entry = [f for f in files if f[0].casefold() == target['executable']]
-        if not entry:
-            fail('default.xbe is not in that ISO.', 'Esa ISO no tiene default.xbe.')
-        h = hashlib.sha256()
-
-        class Sink:
-            def write(self, d):
-                pass
-        disc.copy(entry[0][1], entry[0][2], Sink(), h)
-        if h.hexdigest() != target['sha256']:
-            fail('This ISO is not the supported edition. For now only Star Wars: Obi-Wan (USA) works '
-                 f'(default.xbe SHA-256 {target["sha256"]}).',
-                 'Esta ISO no es la edición compatible. De momento solo funciona Star Wars: Obi-Wan (USA).')
+        disc, files = open_iso(iso, target)
         total = sum(f[2] for f in files)
         free = shutil.disk_usage(ROOT).free
         if free < total + (NEED_GB - 2.1) * 1e9:

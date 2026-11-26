@@ -1,0 +1,39 @@
+// setup_obiwan.rc -- resources of "Instalar-Obi-Wan.exe" (Claude, 2026-11-26).
+// Built from the repository root by tools\build_setup_obiwan.cmd.
+#pragma code_page(65001)
+#include <winver.h>
+#include <winuser.h>
+
+1 ICON "tools/configurador_obiwan.ico"
+1 RT_MANIFEST "tools/setup_obiwan.manifest"
+
+// The port's source + a small Python 3.12 with capstone (tools/hacer_payload_setup.py). No game data.
+300 RCDATA "build/setup/payload.zip"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,2,0,0
+ PRODUCTVERSION 0,2,0,0
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "The128ReBits (fan project)"
+            VALUE "FileDescription", "Instalar Obi-Wan (unofficial PC port, builds from your own ISO)"
+            VALUE "FileVersion", "0.2.0.0"
+            VALUE "InternalName", "setup_obiwan"
+            VALUE "OriginalFilename", "Instalar-Obi-Wan.exe"
+            VALUE "ProductName", "Star Wars Obi-Wan PC port (fan project)"
+            VALUE "ProductVersion", "0.2.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END

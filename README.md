@@ -33,7 +33,24 @@ diagnostics (`RECOMP_PROF=1`, `RECOMP_EXC_DIAG=1`, ...). See `docs/CLAUDE_rendim
 
 You need your own *Star Wars: Obi-Wan* **(USA)** Xbox ISO. Other editions (Europe, Spain) are not supported yet.
 
-1. Install [Python](https://www.python.org/) 3.10+ and then `py -3 -m pip install capstone==5.0.7`.
+### Easy way: `Instalar-Obi-Wan.exe`
+
+Download **`Instalar-Obi-Wan.exe`** from [Releases](https://github.com/The128ReBits/obiwan-pc-port/releases), open it,
+pick your ISO and press *Install*. It does not contain the game: it copies the game files from your ISO and compiles
+the port on your PC. It brings its own small Python; if Microsoft's C++ compiler (Visual Studio 2022 Build Tools) is
+missing it offers to download it from Microsoft, checks Microsoft's signature and installs it (administrator
+permission once, several GB, Internet needed). Then it creates Start menu / desktop shortcuts and an entry in
+*Installed apps* to uninstall it. About 4 GB free are needed for the game itself.
+
+- Windows SmartScreen will say *unknown publisher* because the exe is not signed: *More info → Run anyway*.
+- With *Controlled folder access* on, Documents and Desktop are protected: install to the default folder.
+- Uninstalling deletes the install folder; saved games (`%LOCALAPPDATA%\ObiWanRecomp-dev`) and your ISO stay.
+
+To build the installer yourself: `tools\build_setup_obiwan.cmd` (needs MSVC 2022 and Python 3.12 with capstone 5.0.9).
+
+### By hand: `Instalar Obi-Wan.cmd`
+
+1. Install [Python](https://www.python.org/) 3.10+ and then `py -3 -m pip install capstone==5.0.9`.
 2. Install [Visual Studio 2022 Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) with
    *Desktop development with C++*.
 3. Download this repository (Code → Download ZIP), unzip it and run **`Instalar Obi-Wan.cmd`**. Pick your ISO.
@@ -81,7 +98,22 @@ tiene que generarlo a partir de su propia copia legal.
 
 Necesitas tu propia ISO de *Star Wars: Obi-Wan* **(USA)**; las ediciones Europa y España todavía no funcionan.
 
-1. Instala [Python](https://www.python.org/) 3.10 o más nuevo y luego `py -3 -m pip install capstone==5.0.7`.
+#### Fácil: `Instalar-Obi-Wan.exe`
+
+Descarga **`Instalar-Obi-Wan.exe`** de [Releases](https://github.com/The128ReBits/obiwan-pc-port/releases), ábrelo,
+elige tu ISO y pulsa *Instalar*. No lleva el juego dentro: copia los archivos del juego de tu ISO y compila el port en
+tu PC. Trae su propio Python pequeño; si falta el compilador de C++ de Microsoft (Visual Studio 2022 Build Tools) te
+ofrece descargarlo de Microsoft, comprueba la firma de Microsoft y lo instala (permiso de administrador una vez, varios
+GB, hace falta Internet). Al final crea accesos directos en el menú Inicio / escritorio y una entrada en *Aplicaciones
+instaladas* para desinstalarlo. Para el juego hacen falta unos 4 GB libres.
+
+- SmartScreen de Windows dirá *editor desconocido* porque el exe no está firmado: *Más información → Ejecutar de todas formas*.
+- Con *Acceso controlado a carpetas* activado, Documentos y Escritorio están protegidos: instala en la carpeta que sale por defecto.
+- Al desinstalar se borra la carpeta de instalación; las partidas (`%LOCALAPPDATA%\ObiWanRecomp-dev`) y tu ISO se quedan.
+
+#### A mano: `Instalar Obi-Wan.cmd`
+
+1. Instala [Python](https://www.python.org/) 3.10 o más nuevo y luego `py -3 -m pip install capstone==5.0.9`.
 2. Instala [Visual Studio 2022 Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) con
    *Desarrollo para el escritorio con C++*.
 3. Descarga este repositorio (Code → Download ZIP), descomprímelo y abre **`Instalar Obi-Wan.cmd`**. Elige tu ISO.

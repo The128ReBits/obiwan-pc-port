@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <wchar.h>
 
-#define APP_VERSION   L"0.2.0"
+#define APP_VERSION   L"0.2.1"
 #define APP_NAME      L"Star Wars Obi-Wan (PC)"
 #define FOLDER_NAME   L"Star Wars Obi-Wan PC"
 #define UNINST_KEY    L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\ObiWanPCPort"

@@ -11,8 +11,9 @@ through the emulated MCPX APU.
 by the game's own CPU code) and about 320 fps in a quieter section of another level. Reducing GPU fence waits gave +9 %
 in combat. Measurements and notes are in `docs/` (Spanish).
 
-**Development is paused.** Anyone may use this code to improve their own Obi-Wan port (keep the licenses and credit);
-issues and pull requests are welcome.
+**Development continues** (very early pre-alpha). Please report bugs in
+[Issues](https://github.com/The128ReBits/obiwan-pc-port/issues). Planned: support for ISOs from other regions.
+Anyone may use this code to improve their own Obi-Wan port (keep the licenses and credit); pull requests are welcome.
 
 ## No game data here
 
@@ -94,8 +95,10 @@ de la GPU NV2A y un hilo del runtime las ejecuta sobre Direct3D 11. El sonido pa
 **Estado:** jugable. Medido en un PC: unos 100-157 fps en una prueba de combate del primer nivel y unos 320 fps en un
 tramo tranquilo de otro nivel. Las notas están en `docs/`.
 
-**El desarrollo está en pausa.** Cualquiera puede usar este código para mejorar su propio port de Obi-Wan (respetando
-las licencias y citando el origen); los issues y pull requests son bienvenidos.
+**El desarrollo sigue** (pre-alpha muy temprana). Los errores, en
+[Issues](https://github.com/The128ReBits/obiwan-pc-port/issues). Previsto: ISO de otras regiones, para poder jugarlo
+también en castellano. Cualquiera puede usar este código para mejorar su propio port de Obi-Wan (respetando las
+licencias y citando el origen); los pull requests son bienvenidos.
 
 Aquí **solo** hay nuestro código y nuestras notas: ni el juego, ni el XBE, ni el código traducido del juego. Cada uno
 tiene que generarlo a partir de su propia copia legal.
